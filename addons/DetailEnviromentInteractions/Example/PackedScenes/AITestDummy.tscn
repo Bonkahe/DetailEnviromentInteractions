@@ -1,0 +1,84 @@
+[gd_scene load_steps=12 format=3 uid="uid://c3l2cdaervjyc"]
+
+[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Example/Scripts/BasicAIExample.gd" id="1_5lyry"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s5ug3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x1mkf"]
+albedo_color = Color(0.393093, 0.279507, 0.249102, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7otnq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fflhb"]
+albedo_color = Color(0.393093, 0.279507, 0.249102, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0aj2x"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hqgrd"]
+
+[sub_resource type="Shader" id="Shader_34l6v"]
+code = "shader_type spatial;
+render_mode unshaded, cull_disabled, depth_test_disabled, shadows_disabled, blend_add;
+
+uniform sampler2D StampAlpha : hint_roughness_r, repeat_disable;
+instance uniform float ParticleOpacity : hint_range(0.0, 1.0) = 1.0;
+uniform int EffectChannel : hint_range(0, 2, 1);
+uniform float EffectWeight : hint_range(0.0, 1.0) = 1.0;
+
+
+void fragment() {
+	vec3 color = vec3(0.0);
+	color[EffectChannel] = 1.0;
+	ALBEDO = color;
+	ALPHA = texture(StampAlpha, UV).r * ParticleOpacity * EffectWeight;
+}
+
+//void light() {
+	// Called for every pixel for every light affecting the material.
+	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="Gradient" id="Gradient_6m0yd"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.991071)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rwc4x"]
+gradient = SubResource("Gradient_6m0yd")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qby3l"]
+render_priority = 0
+shader = SubResource("Shader_34l6v")
+shader_parameter/EffectChannel = 1
+shader_parameter/EffectWeight = 1.0
+shader_parameter/StampAlpha = SubResource("GradientTexture2D_rwc4x")
+
+[node name="AITest" type="CharacterBody3D" node_paths=PackedStringArray("BaseDisplacementMesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42622, 29.2116, 0.404523)
+script = ExtResource("1_5lyry")
+WaterHeight = 7.5
+TrailParticleSpawnRate = 0.1
+BaseDisplacementMesh = NodePath("BaseDisplacement")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_s5ug3")
+surface_material_override/0 = SubResource("StandardMaterial3D_x1mkf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.595577, 0, 0, 0, 0.605316, 0, 0, 0, 0.769188, 0, 0.568142, -0.364183)
+mesh = SubResource("BoxMesh_7otnq")
+surface_material_override/0 = SubResource("StandardMaterial3D_fflhb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_0aj2x")
+
+[node name="BaseDisplacement" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.39625, 0, 0, 0, 1.39625, 0, 0, 0, 1.39625, 0, 0, 0)
+layers = 262144
+instance_shader_parameters/ParticleOpacity = 1.0
+mesh = SubResource("PlaneMesh_hqgrd")
+surface_material_override/0 = SubResource("ShaderMaterial_qby3l")

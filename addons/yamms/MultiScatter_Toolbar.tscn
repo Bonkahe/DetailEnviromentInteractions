@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dei84qvk3jyvj"]
+
+[ext_resource type="Script" path="res://addons/yamms/MultiScatter_Toolbar.gd" id="1_ihus8"]
+[ext_resource type="Texture2D" uid="uid://c6uhktmdl1gpp" path="res://addons/yamms/icon.png" id="2_wfj24"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_18hh1"]
+resource_name = "DrawMode"
+
+[node name="HBoxContainer" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ihus8")
+
+[node name="Generate" type="Button" parent="."]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_18hh1")
+text = "Generate
+"
+icon = ExtResource("2_wfj24")

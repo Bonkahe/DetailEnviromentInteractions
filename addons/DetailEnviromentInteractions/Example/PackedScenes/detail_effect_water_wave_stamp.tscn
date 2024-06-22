@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6ctjhb7ahj6f"]
+
+[ext_resource type="Shader" path="res://addons/DetailEnviromentInteractions/Shaders/DetailEffectStamp.gdshader" id="1_5vwrv"]
+[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Scripts/InteractionEffect.gd" id="2_e6o4f"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5wdfm"]
+
+[sub_resource type="Gradient" id="Gradient_ccb5i"]
+offsets = PackedFloat32Array(0, 0.464286, 0.834821, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.28125, 0.28125, 0.28125, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hd18i"]
+gradient = SubResource("Gradient_ccb5i")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5ng3o"]
+render_priority = 127
+shader = ExtResource("1_5vwrv")
+shader_parameter/EffectChannel = 2
+shader_parameter/EffectWeight = 0.1
+shader_parameter/StampAlpha = SubResource("GradientTexture2D_hd18i")
+
+[sub_resource type="Curve" id="Curve_d4e43"]
+_data = [Vector2(0, 1), 0.0, -2.2082, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="DetailEffect_WaterWave_Stamp" type="MeshInstance3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+layers = 262144
+cast_shadow = 0
+extra_cull_margin = 16384.0
+ignore_occlusion_culling = true
+instance_shader_parameters/ParticleOpacity = 1.0
+mesh = SubResource("PlaneMesh_5wdfm")
+surface_material_override/0 = SubResource("ShaderMaterial_5ng3o")
+script = ExtResource("2_e6o4f")
+EndScale = 30.0
+AlphaOverLife = SubResource("Curve_d4e43")

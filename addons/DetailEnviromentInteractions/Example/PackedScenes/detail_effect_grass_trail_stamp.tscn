@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://ihipnr7bkx5a"]
+
+[ext_resource type="Shader" path="res://addons/DetailEnviromentInteractions/Shaders/DetailEffectStamp.gdshader" id="1_ibuc5"]
+[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Scripts/InteractionEffect.gd" id="2_6ittb"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_187os"]
+
+[sub_resource type="Gradient" id="Gradient_ris3k"]
+offsets = PackedFloat32Array(0, 0.40625, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.3125, 0.3125, 0.3125, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vvuo2"]
+gradient = SubResource("Gradient_ris3k")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cd0sn"]
+render_priority = 127
+shader = ExtResource("1_ibuc5")
+shader_parameter/EffectChannel = 1
+shader_parameter/EffectWeight = 1.0
+shader_parameter/StampAlpha = SubResource("GradientTexture2D_vvuo2")
+
+[sub_resource type="Curve" id="Curve_d4e43"]
+_data = [Vector2(0, 1), 0.0, -2.62881, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="DetailEffect_GrassTrail_Stamp" type="MeshInstance3D"]
+layers = 262144
+cast_shadow = 0
+extra_cull_margin = 16384.0
+ignore_occlusion_culling = true
+instance_shader_parameters/ParticleOpacity = 1.0
+mesh = SubResource("PlaneMesh_187os")
+surface_material_override/0 = SubResource("ShaderMaterial_cd0sn")
+script = ExtResource("2_6ittb")
+Duration = 10.0
+EndScale = 2.0
+AlphaOverLife = SubResource("Curve_d4e43")

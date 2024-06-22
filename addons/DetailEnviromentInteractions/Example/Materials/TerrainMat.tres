@@ -1,0 +1,57 @@
+[gd_resource type="ShaderMaterial" load_steps=17 format=3 uid="uid://du7cavokukuo4"]
+
+[ext_resource type="Shader" path="res://addons/DetailEnviromentInteractions/Example/Shaders/TerrainShader.gdshader" id="1_xluvf"]
+[ext_resource type="Texture2D" uid="uid://3uojinpkxvxd" path="res://addons/DetailEnviromentInteractions/Example/Textures/fields_ground_01_Albedo.jpg" id="2_hjp66"]
+[ext_resource type="Texture2D" uid="uid://dr0ptg40iqhhr" path="res://addons/DetailEnviromentInteractions/Example/Textures/fields_ground_01_Height.jpg" id="3_5nthp"]
+[ext_resource type="Texture2D" uid="uid://co760cftgewc4" path="res://addons/DetailEnviromentInteractions/Example/Textures/fields_ground_01_NormalMap.jpg" id="4_invmd"]
+[ext_resource type="Texture2D" uid="uid://b6eyg7hb2phrr" path="res://addons/DetailEnviromentInteractions/Example/Textures/fields_ground_01_Roughness.jpg" id="5_rl553"]
+[ext_resource type="Texture2D" uid="uid://daghlfbcjjioh" path="res://addons/DetailEnviromentInteractions/Example/Textures/brown_mud_01_Albedo.jpg" id="6_561wx"]
+[ext_resource type="Texture2D" uid="uid://gq6dg3d1v5n5" path="res://addons/DetailEnviromentInteractions/Example/Textures/brown_mud_01_Height.jpg" id="7_uo6ev"]
+[ext_resource type="Texture2D" uid="uid://dl52cnhip5p4m" path="res://addons/DetailEnviromentInteractions/Example/Textures/brown_mud_01_NormalMap.jpg" id="8_knfej"]
+[ext_resource type="Texture2D" uid="uid://b2lnx1y5k1khv" path="res://addons/DetailEnviromentInteractions/Example/Textures/brown_mud_01_Roughness.jpg" id="9_0n2rn"]
+[ext_resource type="Texture2D" uid="uid://c4s4krmy4nmwx" path="res://addons/DetailEnviromentInteractions/Example/Textures/Snow_Albedo.png" id="10_pnwvm"]
+[ext_resource type="Texture2D" uid="uid://bbdraub5jfdda" path="res://addons/DetailEnviromentInteractions/Example/Textures/Snow_Height.png" id="11_ayl8s"]
+[ext_resource type="Texture2D" uid="uid://opgqpl6quhai" path="res://addons/DetailEnviromentInteractions/Example/Textures/Snow_NormalMap.png" id="12_l1p3k"]
+[ext_resource type="Texture2D" uid="uid://d4nxscju3h2xu" path="res://addons/DetailEnviromentInteractions/Example/Textures/Snow_Roughness.png" id="13_6ffx8"]
+
+[sub_resource type="Gradient" id="Gradient_74ip8"]
+colors = PackedColorArray(0.633757, 0.633757, 0.633757, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_iycok"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tjtcm"]
+seamless = true
+color_ramp = SubResource("Gradient_74ip8")
+noise = SubResource("FastNoiseLite_iycok")
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_xluvf")
+shader_parameter/FadeEffectAtEdges = true
+shader_parameter/EdgeFadeSmoothness = 32.0
+shader_parameter/TextureUVScale = 0.15
+shader_parameter/TextureBlendSoftness = 0.28
+shader_parameter/SnowDisplacementRangeUpper = 0.155
+shader_parameter/SnowDisplacementRangeLower = 0.02
+shader_parameter/SnowBlendingColorRange = 0.085
+shader_parameter/SnowBlendingNoiseUVScale = 0.05
+shader_parameter/SnowBaseHeight = 0.35
+shader_parameter/MaxMudDisplacement = 0.2
+shader_parameter/FootprintColor = Color(0.62, 0.60884, 0.6014, 1)
+shader_parameter/MudRoughnessPower = 0.636
+shader_parameter/GrassRoughnessPower = 1.0
+shader_parameter/SnowRoughnessPower = 1.0
+shader_parameter/SnowBlendingNoise = SubResource("NoiseTexture2D_tjtcm")
+shader_parameter/MudAlbedo = ExtResource("6_561wx")
+shader_parameter/MudNormalMap = ExtResource("8_knfej")
+shader_parameter/MudHeightMap = ExtResource("7_uo6ev")
+shader_parameter/MudRoughnessMap = ExtResource("9_0n2rn")
+shader_parameter/GrassAlbedo = ExtResource("2_hjp66")
+shader_parameter/GrassNormalMap = ExtResource("4_invmd")
+shader_parameter/GrassHeightMap = ExtResource("3_5nthp")
+shader_parameter/GrassRoughnessMap = ExtResource("5_rl553")
+shader_parameter/SnowAlbedo = ExtResource("10_pnwvm")
+shader_parameter/SnowNormalMap = ExtResource("12_l1p3k")
+shader_parameter/SnowHeightMap = ExtResource("11_ayl8s")
+shader_parameter/SnowRoughnessMap = ExtResource("13_6ffx8")

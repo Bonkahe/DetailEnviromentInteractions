@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2hfro7rqt48h"]
+
+[ext_resource type="Shader" path="res://addons/DetailEnviromentInteractions/Shaders/DetailEffectStamp.gdshader" id="1_ig06h"]
+[ext_resource type="Texture2D" uid="uid://c6pl07yihqfeb" path="res://addons/DetailEnviromentInteractions/Example/Textures/FootPrintAlpha.png" id="2_p0y88"]
+[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Scripts/InteractionEffect.gd" id="3_rsxt5"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tbo0g"]
+size = Vector2(0.75, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8xx0d"]
+render_priority = 127
+shader = ExtResource("1_ig06h")
+shader_parameter/EffectChannel = 0
+shader_parameter/EffectWeight = 1.0
+shader_parameter/StampAlpha = ExtResource("2_p0y88")
+
+[sub_resource type="Curve" id="Curve_d4e43"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.277397, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="DetailEffect_DirtFootprint_Stamp" type="MeshInstance3D"]
+layers = 262144
+cast_shadow = 0
+extra_cull_margin = 16384.0
+ignore_occlusion_culling = true
+instance_shader_parameters/ParticleOpacity = 1.0
+mesh = SubResource("PlaneMesh_tbo0g")
+surface_material_override/0 = SubResource("ShaderMaterial_8xx0d")
+script = ExtResource("3_rsxt5")
+Duration = 30.0
+AlphaOverLife = SubResource("Curve_d4e43")

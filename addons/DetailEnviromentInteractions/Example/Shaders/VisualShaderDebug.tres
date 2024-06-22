@@ -1,0 +1,38 @@
+[gd_resource type="VisualShader" load_steps=3 format=3 uid="uid://blqopcc6vu2vh"]
+
+[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Scripts/SampleDetailEffectsLayerShaderNode.gd" id="1_7de30"]
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_j4bci"]
+expanded_output_ports = [0]
+initialized = true
+script = ExtResource("1_7de30")
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+
+
+// DetailEffectsSample
+
+		#include \"res://addons/DetailEnviromentInteractions/Shaders/DetailEffectsLibrary.gdshaderinc\"
+	
+
+void fragment() {
+	vec4 n_out2p0;
+// DetailEffectsSample:2
+	{
+		n_out2p0 = SampleDetailEffectsLayer((INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz);
+	}
+
+
+// Output:0
+	ALBEDO = vec3(n_out2p0.xyz);
+
+
+}
+"
+graph_offset = Vector2(-435, -2)
+nodes/fragment/2/node = SubResource("VisualShaderNodeCustom_j4bci")
+nodes/fragment/2/position = Vector2(-340, 220)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0)

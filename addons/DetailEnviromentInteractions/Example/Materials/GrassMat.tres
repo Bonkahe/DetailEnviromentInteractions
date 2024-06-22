@@ -1,0 +1,34 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://dfwn5nxutuv8t"]
+
+[ext_resource type="Shader" path="res://addons/DetailEnviromentInteractions/Example/Shaders/GrassShader.gdshader" id="1_lhp51"]
+[ext_resource type="Texture2D" uid="uid://c4tce17prujgq" path="res://addons/DetailEnviromentInteractions/Example/Textures/GreenGrassAlbedo.png" id="2_pl2vd"]
+[ext_resource type="Texture2D" uid="uid://bmajoiitqh5tn" path="res://addons/DetailEnviromentInteractions/Example/Textures/GreenGrassNormalMap.png" id="3_dwild"]
+[ext_resource type="Texture2D" uid="uid://ccvj7g832onqv" path="res://addons/DetailEnviromentInteractions/Example/Textures/GreenGrassRoughness.png" id="4_fdgxe"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xutdn"]
+frequency = 0.0268
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2cocu"]
+seamless = true
+seamless_blend_skirt = 0.23
+noise = SubResource("FastNoiseLite_xutdn")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_lhp51")
+shader_parameter/FadeEffectAtEdges = true
+shader_parameter/EdgeFadeSmoothness = 32.0
+shader_parameter/DeformationDirectionSampleRange = 0.5
+shader_parameter/WindNoiseScale = 0.01
+shader_parameter/WindSpeed = 0.05
+shader_parameter/WindScale = 0.25
+shader_parameter/baseColor = Color(0.989431, 0.921726, 0.746058, 1)
+shader_parameter/tampedColor = Color(0.26524, 0.243817, 0.185078, 1)
+shader_parameter/EffectFadeInSoftness = 1.365
+shader_parameter/EffectMultiplier = 3.0
+shader_parameter/NormalMapPower = 0.436
+shader_parameter/AlphaThreshold = 0.0201
+shader_parameter/WindNoise = SubResource("NoiseTexture2D_2cocu")
+shader_parameter/Albedo = ExtResource("2_pl2vd")
+shader_parameter/NormalMap = ExtResource("3_dwild")
+shader_parameter/Roughness = ExtResource("4_fdgxe")

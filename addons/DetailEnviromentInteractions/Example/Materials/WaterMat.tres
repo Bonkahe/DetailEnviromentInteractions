@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://3glirsf87oac"]
+
+[ext_resource type="Shader" path="res://addons/DetailEnviromentInteractions/Example/Shaders/WaterShader.gdshader" id="1_halm5"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_halm5")
+shader_parameter/FadeEffectAtEdges = true
+shader_parameter/EdgeFadeSmoothness = 30.0
+shader_parameter/WaveCount = 2.0
+shader_parameter/MaxWaveHeight = 0.5
+shader_parameter/NormalSampleRange = 0.1
+shader_parameter/SurfaceColor = Color(0.454786, 0.599277, 0.658443, 1)
+shader_parameter/Roughness = 0.093
+shader_parameter/BaseOpacity = 0.614
+shader_parameter/ReflectionTravel = 100.0
+shader_parameter/MaxDifference = 5.0
+shader_parameter/ReflectionStepDistance = 5.0
+shader_parameter/ReflectionBottomEdgeFade = 0.157
+shader_parameter/SkyColor = Color(0.463051, 0.54651, 0.641727, 1)
