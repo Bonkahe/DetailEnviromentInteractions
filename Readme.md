@@ -19,11 +19,11 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Youtube][youtube-shield]][https://youtu.be/uDzimK9L5y4]
-<!-- [![Forks][forks-shield]][forks-url]
+[![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url] -->
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
