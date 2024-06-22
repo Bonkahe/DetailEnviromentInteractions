@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://5ugnuuj8y07u"]
+
+[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Scripts/DetailEffectsRenderer.gd" id="1_ai4ly"]
+
+[sub_resource type="Environment" id="Environment_0sphn"]
+background_mode = 1
+ambient_light_source = 1
+reflected_light_source = 1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_wqny7"]
+
+[node name="SubViewport" type="SubViewport" node_paths=PackedStringArray("PlayerModel")]
+use_hdr_2d = true
+render_target_clear_mode = 2
+script = ExtResource("1_ai4ly")
+PlayerModel = NodePath("")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1000, 0)
+cull_mask = 262144
+environment = SubResource("Environment_0sphn")
+attributes = SubResource("CameraAttributesPractical_wqny7")
+projection = 1
+size = 64.0

@@ -1,149 +1,87 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-[![Youtube][Youtube-shield]][Youtube-url]
-
-
-
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-<h3 align="center">project_title</h3>
-
-  <p align="center">
-    project_description
-    <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
-  </p>
-</div>
-
-
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
-
-
 <!-- ABOUT THE PROJECT -->
-## About The Project
+# About The Project
 
 [![Usage for Water][water-example]]()
+[![Usage for Terrain][terrain-example]]()
+[![Usage for Grass][grass-example]]()
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+A pretty simple details interaction system designed for Godot 4.3, made in a couple days, soooo I should probably have put more effort/thought into it lol.
+Hopefully it will prove helpful to people hoping to add a little more interaction into their world, a couple notes though:
+This works fine so long as you don't have billions of stamps lying around, I would actually recommend using particle systems instead of the somewhat hacky way I implemented the stamps, as you'll get a lot better performance. 
+Also the terrain is deforming at a little bit of an unrealistic level of detail in the example, this terrain has way more polygons than most terrains, and without tesselation being available in Godot (still hoping someone tackles geometry shaders at some point) that's not likely to change soon, that being said I am experimenting with paralax mapping, and maybe some other ways with my own terrain, so I geuss goonies never say never.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+1. Add the addon folder "addons\DetailEnviromentInteractions" to the addon folder of your project.
+2. Enable the plugin using "Project\ProjectSettings\Plugins" and click the check box next to the plugin "DetailEnviromentInteractions" to enable it.
+3. To run the system you will need three global shader variables, they can be added in the window "Project\ProjectSettings\Globals\ShaderGlobals".
+4. Add the following variables:
+  * GrassDetailViewportTexture (type: sampler2D)
+  * GrassDetailViewportTextureCornerPosition (type: vec3)
+  * GrassDetailViewportTextureSize (type: float)
+5. Once these are added, you can begin to implement the system, begin by added the 'DetailsRenderer' packed scene to your scene, this can be found at "res://addons/DetailEnviromentInteractions/PackedScenes/DetailsRenderer.tscn"
+6. Next set the "Player Model" within that node to the desired player node.
+
+The details system is now ready to use, you may tune it to your specific needs, see Usage for info on the various settings.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+### Usage
 
-<!-- USAGE EXAMPLES -->
-## Usage
+There are a couple settings of note, I will go over each here and how to use them.
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Player Camera:
+Should always be culling layer 19, I use this layer to render the details, you can change it but you will need to change the detail renderer camera cull mask.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+Details Renderer:
+1. RenderSize: Render size is the region that the details renderer will be scanning, this can be scaled up to allow interactions to be seen from further distances, however be aware, unless they are very large, anything over 64 meters really doesn't have a lot of value.
+2. RepositionRate: The rate at which it will update the position of the node, this can be a larger interval, but be aware larger intervals may result in visual popping.
+3. SnapStep: The step at which to snap the renderer, this should always be intervals of 2, I found 2 works just fine for me, but there's a very slight performance cost to updating it's position so be aware of that with this and the reposition rate.
+4. Size: This is the size of the actual image the detail system is producing in pixels, the larger the more detail you will have, however the performance and memory cost will raise as well, anything past 512x512 seemingly doesn't have a lot of visual improvement, if Godot recieves an update allowing tesselation this may change, or if you are rendering a particularly large render size.
+
+Everything else on the details renderer should be left as default.
+
+### Shader Usage:
+this gets a little bit more complex, and will require a bit of shader knowledge, I'll break this up into stamps, visual shaders, and gdshaders.
+
+#### Stamps:
+A couple examples can be found in "res://addons/DetailEnviromentInteractions/Example/PackedScenes/", these start with the name "detail_effect_(the effect in question)", these are just my way of writing data to the details renderer, obviously using actual particle emitters would be more performant, but I simply made these simple packed scenes for testing.
+Each stamp is essentially a decal, which the details renderer picks up, and positions on a texture, in easily retrievable format, so shaders can read that data, and deform themselves accordingly.
+Each one implements a shader "res://addons/DetailEnviromentInteractions/Shaders/DetailEffectStamp.gdshader" which renders the alpha to the given color for the detail renderer to pick up. There are a couple of things you will need to know for implementing your own.
+1. The stamp shader should probably have render modes: "blend_add", "unshaded", "cull_disabled" and "depth_test_disabled", feel free to experiment, but I found this lets the renderer pick it up easiest.
+2. The stamp should be rendered to a mesh (either a plane, or your own particle system), on layer 19, this allows the details renderer to target that layer specifically.
+
+#### Visual Shaders:
+Visual shaders can access the interaction detail renderer by using the node "Addons/BonkaheEffects/DetailEffectsSample", this will retrieve the texture rendered at the current location if it exists, the alpha of the color output is an optional fade out alpha, which can be used to modulate the effect.
+This will also introduce a couple parameters to your shader:
+* FadeEffectAtEdges: bool, controls the fall off mask at the edges, this is neccesary for a smooth transition at the edge of the details render area.
+* EdgeFadeSmoothness: float, the distance inwards the mask is faded, be aware a larger number than the RenderSize will create undesireable results.
+
+#### GDShaders:
+To implement the shader you will need a couple things:
+* add "#include 'res://addons/DetailEnviromentInteractions/Shaders/DetailEffectsLibrary.gdshaderinc'" to  the top of your shader, to import the library.
+* retrieve the current detail renderer data using the function: "SampleDetailEffectsLayer()"
+  
+Now to implement the "SampleDetailEffectsLayer" function you will need to pass into it the position in world space, for vertex this can be retrieved using this code:
+'''NODE_POSITION_WORLD + VERTEX'''
+For Fragment it can be retrieved using this:
+'''(INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz'''
+
+So for fragment the final code would be this:
+'''vec4 result = SampleDetailEffectsLayer((INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz);'''
+
+Then you can deform your mesh however you please with that data.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTRIBUTING -->
@@ -176,28 +114,16 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Bonkahe - bonkahecommercial@Gmail.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
+Project Link: [https://github.com/Bonkahe/DetailEnviromentInteractions](https://github.com/Bonkahe/DetailEnviromentInteractions)
+Youtube Video Intro: [AddLater](AddLater)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[Youtube-shield]: https://avatars.githubusercontent.com/u/11287274?v=4
-[Youtube-url]: https://www.youtube.com/channel/UCCF1XBU7lknM180qDhM_DvA
 
 [water-example]: ExampleWater.gif
+[terrain-example]: ExampleTerrain.gif
+[grass-example]: ExampleGrass.gif

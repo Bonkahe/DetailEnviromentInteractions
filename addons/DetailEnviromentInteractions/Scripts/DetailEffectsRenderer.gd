@@ -1,6 +1,7 @@
 extends SubViewport
 
 @export var PlayerModel : Node3D
+@export var RenderSize : float = 64;
 @export var RepositionRate : float = 0.2
 @export var SnapStep : float = 2.0 #should be typically a multiple of 2 for even stepping of pixels
 
@@ -18,9 +19,9 @@ func _ready() -> void:
 		#return
 	#
 	RenderingServer.global_shader_parameter_set("GrassDetailViewportTexture", get_texture())
-	var size = get_camera_3d().size
-	RenderingServer.global_shader_parameter_set("GrassDetailViewportTextureSize", size)
-	RenderingServer.global_shader_parameter_set("GrassDetailViewportTextureCornerPosition", get_camera_3d().global_position - Vector3(size / 2, 0, size / 2))
+	get_camera_3d().size = RenderSize
+	RenderingServer.global_shader_parameter_set("GrassDetailViewportTextureSize", RenderSize)
+	RenderingServer.global_shader_parameter_set("GrassDetailViewportTextureCornerPosition", get_camera_3d().global_position - Vector3(RenderSize / 2, 0, RenderSize / 2))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
