@@ -1,20 +1,60 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://3glirsf87oac"]
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://3glirsf87oac"]
 
 [ext_resource type="Shader" path="res://addons/DetailEnviromentInteractions/Example/Shaders/WaterShader.gdshader" id="1_halm5"]
+[ext_resource type="Texture2D" uid="uid://cteawkejduovd" path="res://addons/DetailEnviromentInteractions/Example/Textures/SeaFoam.png" id="2_tw4jn"]
+
+[sub_resource type="Gradient" id="Gradient_lld1h"]
+offsets = PackedFloat32Array(0, 0.72, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.571429, 0.571429, 0.571429, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_c42y2"]
+frequency = 0.0071
+fractal_type = 2
+fractal_octaves = 4
+fractal_lacunarity = 1.955
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qi52w"]
+seamless = true
+color_ramp = SubResource("Gradient_lld1h")
+noise = SubResource("FastNoiseLite_c42y2")
+
+[sub_resource type="Gradient" id="Gradient_h7f5h"]
+offsets = PackedFloat32Array(0, 0.568571, 1)
+colors = PackedColorArray(0.015368, 0.119526, 0.193517, 1, 0.0436479, 0.214382, 0.328508, 1, 0.4761, 0.665045, 0.69, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_i1to4"]
+gradient = SubResource("Gradient_h7f5h")
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_halm5")
 shader_parameter/FadeEffectAtEdges = true
-shader_parameter/EdgeFadeSmoothness = 30.0
-shader_parameter/WaveCount = 2.0
-shader_parameter/MaxWaveHeight = 0.5
-shader_parameter/NormalSampleRange = 0.1
-shader_parameter/SurfaceColor = Color(0.454786, 0.599277, 0.658443, 1)
-shader_parameter/Roughness = 0.093
-shader_parameter/BaseOpacity = 0.614
+shader_parameter/EdgeFadeSmoothness = 20.0
+shader_parameter/WaveCount = 3.0
+shader_parameter/MaxWaveHeight = 1.0
+shader_parameter/NormalSampleRange = 1.0
+shader_parameter/BaseWavesMixSharpness = 0.25
+shader_parameter/BaseWavesHeight = 1.46
+shader_parameter/BaseWavesScale = 0.01
+shader_parameter/BaseWavesSpeed = 0.02
+shader_parameter/BaseWavesDirection = Vector2(0.5, 1)
+shader_parameter/BaseWavesNormalSampleRange = 0.01
+shader_parameter/BaseWavesNormalSoftness = 0.965
+shader_parameter/BaseWavesHeightMap = SubResource("NoiseTexture2D_qi52w")
+shader_parameter/Roughness = 0.226
+shader_parameter/BaseOpacity = 1.0
+shader_parameter/EdgeAlphaFade = 1.0
+shader_parameter/EdgeAlphaFadeMinimum = 0.2
+shader_parameter/SurfaceColor = SubResource("GradientTexture1D_i1to4")
+shader_parameter/FoamScale = 0.06
+shader_parameter/FoamSpeed = 0.05
+shader_parameter/FoamWeight = 0.91
+shader_parameter/FoamShorelineFade = 1.5
+shader_parameter/FoamWavesPower = 2.574
+shader_parameter/FoamTexture = ExtResource("2_tw4jn")
 shader_parameter/ReflectionTravel = 100.0
 shader_parameter/MaxDifference = 5.0
 shader_parameter/ReflectionStepDistance = 5.0
 shader_parameter/ReflectionBottomEdgeFade = 0.157
-shader_parameter/SkyColor = Color(0.463051, 0.54651, 0.641727, 1)
+shader_parameter/ReflectionTint = Color(0.4558, 0.521343, 0.53, 1)
+shader_parameter/SkyColor = Color(0.333376, 0.373119, 0.438285, 1)

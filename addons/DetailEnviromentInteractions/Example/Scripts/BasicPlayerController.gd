@@ -13,6 +13,7 @@ extends CharacterBody3D
 
 @export var BaseDisplacementMesh : MeshInstance3D
 
+@export var RotationClampRange = 70
 @export var RotationSensitivity = 0.1
 @export var MoveSpeed = 5.0
 @export var CameraTarget : Node3D
@@ -31,6 +32,13 @@ func _input(event: InputEvent) -> void:
 		rotate_y(deg_to_rad(-event.relative.x*RotationSensitivity))
 		
 		CameraTarget.rotate_x(deg_to_rad(-event.relative.y*RotationSensitivity))
+		#print(CameraTarget.rotation_degrees.x, CameraTarget.rotation_degrees.x > RotationClampRange)
+		if (CameraTarget.rotation_degrees.x > RotationClampRange):
+			CameraTarget.rotation_degrees.x = RotationClampRange
+		elif (CameraTarget.rotation_degrees.x < -RotationClampRange):
+			CameraTarget.rotation_degrees.x = -RotationClampRange
+		
+		#if (CameraTarget.rotation.x > )
 		#CameraTarget.rotation_degrees.z = clampf(CameraTarget.rotation_degrees.z, 20.0, -20.0)
 		
 	elif (event.is_action_pressed("ui_cancel")):

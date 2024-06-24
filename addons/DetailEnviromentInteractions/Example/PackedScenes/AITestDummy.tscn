@@ -60,7 +60,7 @@ shader_parameter/StampAlpha = SubResource("GradientTexture2D_rwc4x")
 [node name="AITest" type="CharacterBody3D" node_paths=PackedStringArray("BaseDisplacementMesh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.42622, 29.2116, 0.404523)
 script = ExtResource("1_5lyry")
-WaterHeight = 7.5
+WaterHeight = 8.0
 TrailParticleSpawnRate = 0.1
 BaseDisplacementMesh = NodePath("BaseDisplacement")
 

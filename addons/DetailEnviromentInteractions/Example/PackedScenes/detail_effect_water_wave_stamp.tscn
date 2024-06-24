@@ -6,11 +6,15 @@
 [sub_resource type="PlaneMesh" id="PlaneMesh_5wdfm"]
 
 [sub_resource type="Gradient" id="Gradient_ccb5i"]
-offsets = PackedFloat32Array(0, 0.464286, 0.834821, 1)
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.591429, 0.88, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.28125, 0.28125, 0.28125, 1, 1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_hd18i"]
 gradient = SubResource("Gradient_ccb5i")
+width = 128
+height = 128
+use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)

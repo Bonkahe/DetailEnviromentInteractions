@@ -6,22 +6,13 @@ extends SubViewport
 @export var SnapStep : float = 2.0 #should be typically a multiple of 2 for even stepping of pixels
 
 var lastPosition : Vector3
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
-	# move to plugin initialization later.
-	#var globalShaderVariables : Array[StringName] = RenderingServer.global_shader_parameter_get_list()
-	#print(globalShaderVariables)
-	#if (!globalShaderVariables.has("GrassDetailViewportTexture") 
-	#|| !globalShaderVariables.has("GrassDetailViewportTextureCornerPosition") 
-	#|| !globalShaderVariables.has("GrassDetailViewportTextureSize")):
-		#printerr("Missing global shader variables for detail effects.")
-		#queue_free()
-		#return
-	#
 	RenderingServer.global_shader_parameter_set("GrassDetailViewportTexture", get_texture())
 	get_camera_3d().size = RenderSize
 	RenderingServer.global_shader_parameter_set("GrassDetailViewportTextureSize", RenderSize)
 	RenderingServer.global_shader_parameter_set("GrassDetailViewportTextureCornerPosition", get_camera_3d().global_position - Vector3(RenderSize / 2, 0, RenderSize / 2))
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
