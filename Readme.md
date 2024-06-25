@@ -11,9 +11,6 @@ This works fine so long as you don't have billions of stamps lying around, I wou
 Also the terrain is deforming at a little bit of an unrealistic level of detail in the example, this terrain has way more polygons than most terrains, and without tesselation being available in Godot (still hoping someone tackles geometry shaders at some point) that's not likely to change soon, that being said I am experimenting with paralax mapping, and maybe some other ways with my own terrain, so I geuss goonies never say never.
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -31,8 +28,6 @@ Also the terrain is deforming at a little bit of an unrealistic level of detail 
 6. Next set the "Player Model" within that node to the desired player node.
 
 The details system is now ready to use, you may tune it to your specific needs, see Usage for info on the various settings.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ### Usage
@@ -81,9 +76,6 @@ So for fragment the final code would be this:
 
 Then you can deform your mesh however you please with that data.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- CONTRIBUTING -->
 ## Contributing
 
@@ -98,18 +90,11 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTACT -->
 ## Contact
@@ -118,9 +103,6 @@ Bonkahe - bonkahecommercial@Gmail.com
 
 Project Link: [https://github.com/Bonkahe/DetailEnviromentInteractions](https://github.com/Bonkahe/DetailEnviromentInteractions)
 Youtube Video Intro: [AddLater](AddLater)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
