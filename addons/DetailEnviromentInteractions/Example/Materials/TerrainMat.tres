@@ -30,6 +30,7 @@ render_priority = 0
 shader = ExtResource("1_xluvf")
 shader_parameter/FadeEffectAtEdges = true
 shader_parameter/EdgeFadeSmoothness = 32.0
+shader_parameter/NormalSampleRange = null
 shader_parameter/TextureUVScale = 0.15
 shader_parameter/TextureBlendSoftness = 0.28
 shader_parameter/SnowDisplacementRangeUpper = 0.155

@@ -6,7 +6,7 @@ render_mode cull_disabled, depth_draw_always, depth_prepass_alpha;
 group_uniforms Waves;
 uniform float WaveCount = 3.0;
 uniform float MaxWaveHeight = 0.2;
-uniform float NormalSampleRange = 0.25;
+//uniform float NormalSampleRange = 0.25;
 
 group_uniforms BaseWaves;
 uniform float BaseWavesMixSharpness : hint_range(0.0, 1.0) = 0.25;
@@ -84,23 +84,27 @@ void vertex() {
 	float currentHeight = VERTEX.y;
 	currentHeight += detailEffectsLayerData.b * clamp(detailEffectsLayerData.b, 0.0, 1.0) * MaxWaveHeight;
 	if (currentHeight != VERTEX.y){
-		// generate normals,
-		vec3 positionUp = VERTEX + vec3(0.0, 0.0, NormalSampleRange);
-		float tempHeight = SampleDetailEffectsLayer(NODE_POSITION_WORLD + positionUp).b * detailEffectsLayerData.a;
-
-		positionUp.y += tempHeight * MaxWaveHeight;
-
-		vec3 positionRight = VERTEX + vec3(NormalSampleRange, 0.0, 0.0);
-		tempHeight = SampleDetailEffectsLayer(NODE_POSITION_WORLD + positionRight).b * detailEffectsLayerData.a;
-
-		positionRight.y += tempHeight * MaxWaveHeight;
-
-		vec3 center = vec3(VERTEX.x, max(VERTEX.y, currentHeight), VERTEX.z);
-
-		vec3 updir = positionUp - center;
-		vec3 rightdir = positionRight - center;
-		NORMAL = mix(NORMAL, normalize(cross(updir, rightdir)), dynamicHeightBlend);
-		VERTEX = center;
+		vec4 normalandHeight = RetrieveNormalMapAndHeight(NODE_POSITION_WORLD + VERTEX, 2);
+		NORMAL = mix(NORMAL, normalandHeight.xyz, dynamicHeightBlend);
+		VERTEX = vec3(VERTEX.x, max(VERTEX.y, VERTEX.y + normalandHeight.a), VERTEX.z);
+		//
+		//// generate normals,
+		//vec3 positionUp = VERTEX + vec3(0.0, 0.0, NormalSampleRange);
+		//float tempHeight = SampleDetailEffectsLayer(NODE_POSITION_WORLD + positionUp).b * detailEffectsLayerData.a;
+//
+		//positionUp.y += tempHeight * MaxWaveHeight;
+//
+		//vec3 positionRight = VERTEX + vec3(NormalSampleRange, 0.0, 0.0);
+		//tempHeight = SampleDetailEffectsLayer(NODE_POSITION_WORLD + positionRight).b * detailEffectsLayerData.a;
+//
+		//positionRight.y += tempHeight * MaxWaveHeight;
+//
+		//vec3 center = vec3(VERTEX.x, max(VERTEX.y, currentHeight), VERTEX.z);
+//
+		//vec3 updir = positionUp - center;
+		//vec3 rightdir = positionRight - center;
+		//NORMAL = mix(NORMAL, normalize(cross(updir, rightdir)), dynamicHeightBlend);
+		//VERTEX = center;
 	}
 	foamWeight = pow(max(abs( VERTEX.y - originalY), dynamicHeightBlend / 3.0), 3.0);
 	// Called for every vertex the material is visible on.

@@ -1,38 +1,147 @@
-[gd_resource type="VisualShader" load_steps=3 format=3 uid="uid://blqopcc6vu2vh"]
+[gd_resource type="VisualShader" load_steps=12 format=3 uid="uid://blqopcc6vu2vh"]
 
-[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Scripts/SampleDetailEffectsLayerShaderNode.gd" id="1_7de30"]
+[ext_resource type="Script" path="res://addons/DetailEnviromentInteractions/Scripts/SampleDetailHeightAndNormalLayerShaderNode.gd" id="1_ng3ls"]
 
-[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_j4bci"]
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_pw4fl"]
+parameter_name = "Albedo"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_6dcye"]
+parameter_name = "Roughness"
+hint = 1
+default_value_enabled = true
+default_value = 0.1
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_gn48g"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_2jl48"]
+parameter_name = "MaxWaveHeight"
+default_value_enabled = true
+default_value = 3.0
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_k6dkq"]
 expanded_output_ports = [0]
 initialized = true
-script = ExtResource("1_7de30")
+script = ExtResource("1_ng3ls")
+
+[sub_resource type="VisualShaderNodeIntParameter" id="VisualShaderNodeIntParameter_g5acf"]
+parameter_name = "HeightSampleChannel"
+hint = 1
+max = 2
+default_value_enabled = true
+default_value = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_j12te"]
+expanded_output_ports = [0]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_uxr1f"]
+operator = 6
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_x1yjb"]
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_ihtbl"]
 
 [resource]
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
 
+uniform int HeightSampleChannel : hint_range(0, 2) = 2;
+uniform float MaxWaveHeight = 3;
+uniform vec4 Albedo : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform float Roughness : hint_range(0, 1) = 0.10000000149012;
 
 
-// DetailEffectsSample
+// DetailEffectsHeightAndNormalSample
 
 		#include \"res://addons/DetailEnviromentInteractions/Shaders/DetailEffectsLibrary.gdshaderinc\"
 	
 
-void fragment() {
+void vertex() {
+// Input:6
+	vec3 n_out6p0 = VERTEX;
+	float n_out6p1 = n_out6p0.r;
+	float n_out6p2 = n_out6p0.g;
+	float n_out6p3 = n_out6p0.b;
+
+
+// IntParameter:3
+	int n_out3p0 = HeightSampleChannel;
+
+
 	vec4 n_out2p0;
-// DetailEffectsSample:2
+// DetailEffectsHeightAndNormalSample:2
 	{
-		n_out2p0 = SampleDetailEffectsLayer((INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz);
+		n_out2p0 = RetrieveNormalMapAndHeight(NODE_POSITION_WORLD + VERTEX, n_out3p0);
 	}
+	float n_out2p4 = n_out2p0.a;
+
+
+// FloatParameter:11
+	float n_out11p0 = MaxWaveHeight;
+
+
+// FloatOp:10
+	float n_out10p0 = n_out2p4 * n_out11p0;
+
+
+// FloatOp:8
+	float n_out8p0 = n_out10p0 + n_out6p2;
+
+
+// FloatOp:7
+	float n_out7p0 = max(n_out6p2, n_out8p0);
+
+
+// VectorCompose:9
+	vec3 n_out9p0 = vec3(n_out6p1, n_out7p0, n_out6p3);
+
+
+// Output:0
+	VERTEX = n_out9p0;
+	NORMAL = vec3(n_out2p0.xyz);
+
+
+}
+
+void fragment() {
+// ColorParameter:2
+	vec4 n_out2p0 = Albedo;
+
+
+// FloatParameter:3
+	float n_out3p0 = Roughness;
 
 
 // Output:0
 	ALBEDO = vec3(n_out2p0.xyz);
+	ROUGHNESS = n_out3p0;
 
 
 }
 "
-graph_offset = Vector2(-342.325, -102.075)
-nodes/fragment/2/node = SubResource("VisualShaderNodeCustom_j4bci")
-nodes/fragment/2/position = Vector2(-380, 240)
-nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0)
+graph_offset = Vector2(-254.872, -258.331)
+nodes/vertex/0/position = Vector2(1220, 120)
+nodes/vertex/2/node = SubResource("VisualShaderNodeCustom_k6dkq")
+nodes/vertex/2/position = Vector2(-184.484, 98.0802)
+nodes/vertex/3/node = SubResource("VisualShaderNodeIntParameter_g5acf")
+nodes/vertex/3/position = Vector2(-480, 80)
+nodes/vertex/6/node = SubResource("VisualShaderNodeInput_j12te")
+nodes/vertex/6/position = Vector2(140, 520)
+nodes/vertex/7/node = SubResource("VisualShaderNodeFloatOp_uxr1f")
+nodes/vertex/7/position = Vector2(760, 380)
+nodes/vertex/8/node = SubResource("VisualShaderNodeFloatOp_x1yjb")
+nodes/vertex/8/position = Vector2(540, 280)
+nodes/vertex/9/node = SubResource("VisualShaderNodeVectorCompose_ihtbl")
+nodes/vertex/9/position = Vector2(980, 520)
+nodes/vertex/10/node = SubResource("VisualShaderNodeFloatOp_gn48g")
+nodes/vertex/10/position = Vector2(240, 160)
+nodes/vertex/11/node = SubResource("VisualShaderNodeFloatParameter_2jl48")
+nodes/vertex/11/position = Vector2(-200, 300)
+nodes/vertex/connections = PackedInt32Array(3, 0, 2, 0, 2, 0, 0, 1, 6, 2, 7, 0, 6, 2, 8, 1, 8, 0, 7, 1, 7, 0, 9, 1, 6, 1, 9, 0, 6, 3, 9, 2, 9, 0, 0, 0, 11, 0, 10, 1, 10, 0, 8, 0, 2, 4, 10, 0)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_pw4fl")
+nodes/fragment/2/position = Vector2(-60, 120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatParameter_6dcye")
+nodes/fragment/3/position = Vector2(-200, 340)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 0, 3)

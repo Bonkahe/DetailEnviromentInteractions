@@ -14,6 +14,7 @@ global uniform vec3 GrassDetailViewportTextureCornerPosition;
 
 uniform bool FadeEffectAtEdges;
 uniform float EdgeFadeSmoothness;
+uniform float NormalSampleRange;
 
 vec4 SampleDetailEffectsLayer(vec3 worldPosition){
 
@@ -34,6 +35,26 @@ vec4 SampleDetailEffectsLayer(vec3 worldPosition){
 	else{
 		return texture(GrassDetailViewportTexture, uv);
 	}
+}
+
+vec4 RetrieveNormalMapAndHeight(vec3 centerWorldPosition, int channel){
+	vec4 detailEffectsLayerData = SampleDetailEffectsLayer(centerWorldPosition);
+	
+	vec3 positionUp = vec3(0.0, 0.0, NormalSampleRange);
+	float tempHeight = SampleDetailEffectsLayer(centerWorldPosition + positionUp)[channel] * detailEffectsLayerData.a;
+
+	positionUp.y += tempHeight;
+
+	vec3 positionRight = vec3(NormalSampleRange, 0.0, 0.0);
+	tempHeight = SampleDetailEffectsLayer(centerWorldPosition + positionRight)[channel] * detailEffectsLayerData.a;
+
+	positionRight.y += tempHeight;
+
+	vec3 center = vec3(0.0, detailEffectsLayerData[channel] * detailEffectsLayerData.a, 0.0);
+
+	vec3 updir = positionUp - center;
+	vec3 rightdir = positionRight - center;
+	return vec4(normalize(cross(updir, rightdir)), center.y);
 }
 
 #ifdef USE_PARALAX

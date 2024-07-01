@@ -18,6 +18,7 @@ render_priority = 0
 shader = ExtResource("1_lhp51")
 shader_parameter/FadeEffectAtEdges = true
 shader_parameter/EdgeFadeSmoothness = 32.0
+shader_parameter/NormalSampleRange = null
 shader_parameter/DeformationDirectionSampleRange = 0.5
 shader_parameter/WindNoiseScale = 0.01
 shader_parameter/WindSpeed = 0.05
