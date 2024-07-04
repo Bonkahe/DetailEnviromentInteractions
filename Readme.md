@@ -101,7 +101,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Bonkahe - bonkahecommercial@Gmail.com
 
-Project Link: [https://github.com/Bonkahe/DetailEnviromentInteractions](https://github.com/Bonkahe/DetailEnviromentInteractions)
+Basic Implementation: [https://github.com/Bonkahe/DetailCharacterEffectsImplementation](https://github.com/Bonkahe/DetailCharacterEffectsImplementation)
 
 Youtube Video Intro: [https://www.youtube.com/watch?v=FRUmvE_a7_k](https://www.youtube.com/watch?v=FRUmvE_a7_k)
 
